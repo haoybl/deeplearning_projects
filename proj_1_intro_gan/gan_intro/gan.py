@@ -170,7 +170,7 @@ class GAN(object):
 
             # pretraining discriminator
             num_pretrain_steps = 1000
-            for step in xrange(num_pretrain_steps):
+            for step in range(num_pretrain_steps):
                 d = (np.random.random(self.batch_size) - 0.5) * 10.0
                 labels = norm.pdf(d, loc=self.data.mu, scale=self.data.sigma)
                 pretrain_loss, _ = session.run([self.pre_loss, self.pre_opt], {
@@ -183,7 +183,7 @@ class GAN(object):
             for i, v in enumerate(self.d_params):
                 session.run(v.assign(self.weightsD[i]))
 
-            for step in xrange(self.num_steps):
+            for step in range(self.num_steps):
                 # update discriminator
                 x = self.data.sample(self.batch_size)
                 z = self.gen.sample(self.batch_size)
