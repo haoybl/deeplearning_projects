@@ -7,13 +7,13 @@ from three classes, Giardia, Defects and Crypto.
 Below are sample images from three classes:
 
 Giardia:
-![Giardia class](https://github.com/ntutangyun/deeplearning_projects/tree/master/proj_2_cnn_microbe_image_classificaton/sample_images/Giardia.jpg)
+![Giardia class](https://github.com/ntutangyun/deeplearning_projects/blob/master/proj_2_cnn_microbe_image_classification/sample_images/Giardia.jpg)
 
 Defects:
-![Defects class](https://github.com/ntutangyun/deeplearning_projects/tree/master/proj_2_cnn_microbe_image_classificaton/Defects.jpg)
+![Defects class](https://github.com/ntutangyun/deeplearning_projects/blob/master/proj_2_cnn_microbe_image_classification/sample_images/Defects.jpg)
 
 Crypto:
-![Crypto class](https://github.com/ntutangyun/deeplearning_projects/tree/master/proj_2_cnn_microbe_image_classificaton/Crypto.jpg)
+![Crypto class](https://github.com/ntutangyun/deeplearning_projects/blob/master/proj_2_cnn_microbe_image_classification/sample_images/Crypto.jpg)
 
 
 ## Image Processing & Data Augmentation
@@ -43,7 +43,7 @@ Second Convolutional Layer: 5x5 pixel patch, 16 channel, 32 depth, ReLU, 2x2 max
 
 First Fully Connected Layer: 512 neurons, ReLU, dropout
 
-Output layer: softmax, 3 neurons, ont-hot encoding. [class 1: 100, class 2:010, class 3:001]
+Output layer: softmax, 3 neurons, ont-hot encoding. [class 1: 100, class 2: 010, class 3: 001]
 
 ### Hyperparameter
 Learning rate: exponential Decay, initial learning rate = 0.05, decay_step=5000, decay_rate=0.8
