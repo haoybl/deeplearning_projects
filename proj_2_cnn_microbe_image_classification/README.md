@@ -8,6 +8,7 @@ Below are sample images from three classes:
 
 Giardia:
 <img src="https://github.com/ntutangyun/deeplearning_projects/blob/master/proj_2_cnn_microbe_image_classification/sample_images/Giardia.jpg" width="480">
+
 Defects:
 <img src="https://github.com/ntutangyun/deeplearning_projects/blob/master/proj_2_cnn_microbe_image_classification/sample_images/Defects.jpg" width="480">
 
