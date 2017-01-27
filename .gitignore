@@ -225,3 +225,11 @@ MNIST_data/
 #############
 *.gif
 proj_1_intro_gan/gan_intro/.idea/workspace.xml
+
+
+################
+## Other folders
+################
+/proj_2_cnn_microbe_image_classification/Crypto/
+/proj_2_cnn_microbe_image_classification/Defects/
+/proj_2_cnn_microbe_image_classification/Giardia/
