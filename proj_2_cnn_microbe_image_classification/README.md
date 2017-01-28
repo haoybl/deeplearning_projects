@@ -4,6 +4,9 @@
 A simple CNN is constructed to perform classification of microbe images 
 from three classes, Giardia, Defects and Crypto. 
 
+Data provided by:
+Shakeela from NTU-EEE-VALENS LAB, Singapore. 
+
 Below are sample images from three classes:
 
 Giardia:
