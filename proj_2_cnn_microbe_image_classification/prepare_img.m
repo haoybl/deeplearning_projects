@@ -6,7 +6,11 @@ clc;
 %% Load image Data
 
 % load Giardia images
+<<<<<<< HEAD
 imagefiles = dir('Giardia/*.bmp');
+=======
+imagefiles = dir('Giardia/*.bmp');      
+>>>>>>> refs/remotes/origin/master
 nfiles = length(imagefiles);    % Number of files found
 for ii=1:nfiles
    currentfilename = imagefiles(ii).name;
