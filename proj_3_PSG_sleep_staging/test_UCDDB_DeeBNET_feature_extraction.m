@@ -46,19 +46,8 @@ rbmParams.maxEpoch=maxEpoch;
 rbmParams.samplingMethodType=SamplingClasses.SamplingMethodType.CD;
 rbmParams.performanceMethod='reconstruction';
 dbn.addRBM(rbmParams);
-% RBM3
-rbmParams=RbmParameters(500,ValueType.binary);
-rbmParams.maxEpoch=maxEpoch;
-rbmParams.samplingMethodType=SamplingClasses.SamplingMethodType.CD;
-rbmParams.performanceMethod='reconstruction';
-dbn.addRBM(rbmParams);
-% RBM4
-rbmParams=RbmParameters(250,ValueType.binary);
-rbmParams.maxEpoch=maxEpoch;
-rbmParams.samplingMethodType=SamplingClasses.SamplingMethodType.CD;
-rbmParams.performanceMethod='reconstruction';
-dbn.addRBM(rbmParams);
-% RBM5
+
+% RBM3 For plot
 rbmParams=RbmParameters(3,ValueType.gaussian);
 rbmParams.maxEpoch=maxEpoch;
 rbmParams.samplingMethodType=SamplingClasses.SamplingMethodType.CD;
@@ -68,4 +57,17 @@ dbn.addRBM(rbmParams);
 dbn.train(data);
 dbn.backpropagation(data);
 
+save('training_result.mat', 'dbn', 'data');
 
+
+%% plot
+figure;
+%plotFig=[{'mo' 'go' 'm+' 'r+' 'ro' 'k+' 'g+' 'ko' 'bo' 'b+'}];
+plotFig=[{'mo' 'go' 'm+' 'r+' 'ro'}];
+for i=0:4
+    img=data.testData(data.testLabels==i,:);
+    ext=dbn.getFeature(img);
+    plot3(ext(:,1),ext(:,2),ext(:,3),plotFig{i+1});hold on;
+end
+legend('Wake','REM','S1','S2','SWS');
+hold off;
