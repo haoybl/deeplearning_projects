@@ -12,7 +12,8 @@ clc;
 resize = [3200, 2400];
 images_per_mat = 100;
 
-top_path = 'D:\OneDrive\NTU\PhD\PHD DATA\Dataset\Kaggles_Cervical_cancer_screening\train\';
+top_path = 'G:\Kaggle\train\';
+cd(top_path);
 
 type_1_dir = [top_path, 'Type_1']; 
 type_2_dir = [top_path, 'Type_2'];
