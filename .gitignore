@@ -209,40 +209,35 @@ pip-log.txt
 .coverage
 .tox
 
-#Translations
 *.mo
 
 #Mr Developer
 .mr.developer.cfg
 
 .idea/
-.ipynb_checkpoints
-output/
-MNIST_data/
 
 #############
 ## Other Files
 #############
 *.gif
-<<<<<<< HEAD
 *.mat
-=======
->>>>>>> refs/remotes/origin/master
-proj_1_intro_gan/gan_intro/.idea/workspace.xml
 
-
-################
-## Other folders
-################
-<<<<<<< HEAD
-**/proj_2_cnn_microbe_image_classification/Crypto/
-**/proj_2_cnn_microbe_image_classification/Defects/
-**/proj_2_cnn_microbe_image_classification/Giardia/
-**/DeeBNetV3.2/
-**/Data_investigation/
-
-=======
 /proj_2_cnn_microbe_image_classification/Crypto/
 /proj_2_cnn_microbe_image_classification/Defects/
 /proj_2_cnn_microbe_image_classification/Giardia/
->>>>>>> refs/remotes/origin/master
+
+*.rec
+*_stage.txt
+*.edf
+*_respevt.txt
+
+
+/learning_resources/Coursera Machine Learning by Andrew Ng/Week 1/.ipynb_checkpoints/
+/proj_1_intro_gan/gan_intro/MNIST_data/
+/proj_1_intro_gan/gan_intro/output/
+/proj_3_PSG_sleep_staging/Data_investigation/
+/proj_3_PSG_sleep_staging/resources/Matlab_DBN_lib/DeeBNetV3.2/
+
+
+
+
