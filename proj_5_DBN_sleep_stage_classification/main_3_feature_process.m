@@ -11,10 +11,8 @@
 clear all
 
 cd('D:\OneDrive\NTU\PhD\PHD DATA\projects\proj_5_DBN_sleep_stage_classification') % set matlab path to installation path\sleep\
-filek = {'02' '03' '05' '06' '07' '08' '09' '10' '11' '12' '13' '14' '15' '17' '18' '19' '20' '21' '22' '23' '24' '25' '26' '27' '28'}; %uncomment if all night recordings were downloaded
-%filek = {'02' '03' '05' '06' '07'}; % If only the first 5 night recordings were downloaded
-nfiles = length(filek);
 
+%nfiles = 25;
 
 %% Perform Sequential Backwards Search (SBS)
 
@@ -23,6 +21,8 @@ load Eucddb
 % for ii=1:nfiles
 %     subplot(6,5,ii); plot(E{1}(:,ii)); title(featurenames{ii}); axis tight
 % end
+
+nfiles = length(E);
 
 % Pre-process feature matrix
 for i = 1:nfiles
@@ -65,15 +65,17 @@ for testingset = 1:nfiles
     feat = 1:28;      % Features to chose from in the SBS-algorithm
     
     % Divide into training, validation, and test sets
+    % iterate each file as test set, split the rest, half as training half
+    % as validation
     [trainingsets validationsets] = split(removerows((1:nfiles)', testingset)', [0.5 0.5]); %50-50 between train and test
     
     %Reduced Training set
     % The following data is removed:
-    %  - 30 second before and after a sleep stage change
+    %  - 30 second before and after a sleep stage change         ####
     %  - Rows with NaN or Inf values
     %  - Data with annotated artifacts or indetermined are
     %  - Any duplicate rows
-    %  - Random data from each sleep stage until class balance
+    %  - Random data from each sleep stage until class balance   ####
     %  - Further remove data to cap at maxsamples
     % Data is sorted
     E_train = [];
