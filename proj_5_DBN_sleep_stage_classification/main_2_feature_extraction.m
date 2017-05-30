@@ -11,7 +11,10 @@
 clear all
 
 cd('D:\OneDrive\NTU\PhD\PHD DATA\projects\proj_5_DBN_sleep_stage_classification') % set matlab path to installation path\sleep\
-filek = {'02' '03' '05' '06' '07' '08' '09' '10' '11' '12' '13' '14' '15' '17' '18' '19' '20' '21' '22' '23' '24' '25' '26' '27' '28'}; %uncomment if all night recordings were downloaded
+%filek = {'02' '03' '05' '06' '07' '08' '09' '10' '11' '12' '13' '14' '15' '17' '18' '19' '20' '21' '22' '23' '24' '25' '26' '27' '28'}; %uncomment if all night recordings were downloaded
+% file 08 and 24 are removed because of undefined stage '8', which crashes
+% the hmmestimate function everytime
+filek = {'02' '03' '05' '06' '07' '09' '10' '11' '12' '13' '14' '15' '17' '18' '19' '20' '21' '22' '23' '25' '26' '27' '28'}; %uncomment if all night recordings were downloaded
 %filek = {'02' '03' '05' '06' '07'}; % If only the first 5 night recordings were downloaded
 nfiles = length(filek);
 
