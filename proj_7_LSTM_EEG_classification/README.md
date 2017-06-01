@@ -2,4 +2,4 @@
 
 #### Reading Materials ####
 
-1. [LSTM by Example using Tensorflow](https://medium.com/towards-data-science/lstm-by-example-using-tensorflow-feb0c1968537)
+1. [TensorFlow examples on GitHub](https://github.com/aymericdamien/TensorFlow-Examples)
