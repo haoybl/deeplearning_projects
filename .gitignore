@@ -181,3 +181,5 @@ proj_6*/*.XML
 
 
 # End of https://www.gitignore.io/api/python
+*.XML
+*.XML
