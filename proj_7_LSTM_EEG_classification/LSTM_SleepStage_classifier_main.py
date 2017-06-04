@@ -19,7 +19,7 @@ import numpy as np
 import tensorflow as tf
 
 # Self-Defined Libraries
-from PSG_data_reader import prepare_train_valid_data
+from myUtils import prepare_train_valid_data
 
 # ----------------------------------------
 # Define Flags for command line execution

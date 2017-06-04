@@ -17,7 +17,7 @@ from __future__ import print_function
 import numpy as np
 import tensorflow as tf
 
-from PSG_data_reader import prepare_train_valid_data
+from myUtils import prepare_train_valid_data
 
 tf.logging.set_verbosity(tf.logging.INFO)
 

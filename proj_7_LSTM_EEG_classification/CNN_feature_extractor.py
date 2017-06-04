@@ -17,9 +17,10 @@ from __future__ import print_function
 import tensorflow as tf
 
 # User defined Classes/methods
-from PSG_data_reader import prepare_train_valid_data
-from PSG_data_reader import prepare_test_data
-from PSG_data_reader import next_batch
+from myUtils import prepare_train_valid_data
+from myUtils import prepare_test_data
+from myUtils import next_batch
+from myUtils import label_counter
 from CNN_configuration import CNNConfiguration
 
 
@@ -41,6 +42,8 @@ config = CNNConfiguration()
 x = tf.placeholder(tf.float32, [None, config.input_size, config.num_channel])
 y = tf.placeholder(tf.float32, [None, config.num_class])
 keep_prob = tf.placeholder(tf.float32)
+global_step = tf.Variable(0, trainable=False)
+learning_rate = tf.train.exponential_decay(config.learning_rate, global_step, 3000, 0.8, staircase=True)
 
 
 # Create Wrappers for reuse
@@ -114,23 +117,29 @@ pred = conv_net(x, weights, biases, keep_prob)
 
 # Define loss and optimizer
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))
-optimizer = tf.train.AdamOptimizer(learning_rate=config.learning_rate).minimize(cost)
+optimizer = tf.train.AdamOptimizer(learning_rate=config.learning_rate).minimize(cost, global_step=global_step)
 
 # Evaluate model
 correct_pred = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
+# Saver for saving and restoring models
+saver = tf.train.Saver()
+
 # initializing the variables
 init = tf.global_variables_initializer()
 
 # launch the graph
-
 with tf.Session() as sess:
-    sess.run(init)
-    step = 1
+
+    try:
+        saver.restore(sess, '/tmp/CNN_model')
+    except:
+        print("Model checkpoint not found, creating new session...")
+        sess.run(init)
 
     # keep training until reach max iterations
-    while step * config.batch_size < config.max_epochs:
+    while sess.run(global_step) < config.max_epochs:
         batch_x, batch_y = next_batch(train_data, train_label, batch_size=config.batch_size)
         # Run optimization op (backprop)
         sess.run(optimizer, feed_dict={x: batch_x,
@@ -138,27 +147,29 @@ with tf.Session() as sess:
                                        keep_prob: config.drop_out})
 
         # logging
-        if step % config.display_step == 0:
+        if sess.run(global_step) % config.display_step == 0:
             loss, acc = sess.run([cost, accuracy], feed_dict={x: batch_x,
                                                               y: batch_y,
                                                               keep_prob: 1.})
 
-            print("Iter " + str(step*config.batch_size) + ", Training Mini-batch Loss=" +
-                  "{:.6f}".format(loss) + ", Training Accuracy= " +
-                  "{:.5f}".format(acc))
+            print("Iter: " + str(sess.run(global_step)))
+            print("Train batch Loss =" + "{:.6f}".format(loss) + ", Train Acc = " + "{:.5f}".format(acc))
 
-            loss, acc = sess.run([cost, accuracy], feed_dict={x: valid_data,
-                                                              y: valid_label,
+            batch_x, batch_y = next_batch(valid_data, valid_label, batch_size=config.batch_size)
+            loss, acc = sess.run([cost, accuracy], feed_dict={x: batch_x,
+                                                              y: batch_y,
                                                               keep_prob: 1.})
 
-            print("Iter " + str(step * config.batch_size) + ", Validation Mini-batch Loss=" +
-                  "{:.6f}".format(loss) + ", Validation Accuracy= " +
-                  "{:.5f}".format(acc))
+            print("Valid batch Loss =" + "{:.6f}".format(loss) + ", Valid Acc = " + "{:.5f}".format(acc))
 
-        step += 1
+            saver.save(sess, '/tmp/CNN_model')
+
     print("Training Is Done.")
 
     # Calculate Accuracy for test samples
     test_data, test_label = prepare_test_data()
+    batch_x, batch_y = next_batch(valid_data, valid_label, batch_size=512)
+    label_counter(batch_y)
     print("Testing Accuracy: ",
-          sess.run(accuracy, feed_dict={x: test_data, y: test_label, keep_prob: 1.}))
+          sess.run(accuracy, feed_dict={x: batch_x, y: batch_y, keep_prob: 1.}))
+

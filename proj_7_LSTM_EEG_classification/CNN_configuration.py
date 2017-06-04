@@ -11,10 +11,10 @@ class CNNConfiguration:
         self.input_size = 3840
         self.num_channel = 4
         self.num_class = 5
-        self.max_epochs = 10000
+        self.max_epochs = 36100
         self.learning_rate = 0.001
         self.kernel_size = 8  # two second kernel
-        self.padding = 'same'
+        self.padding = 'SAME'
         self.conv_stride = 1
         self.conv_1_channel = 64
         self.conv_2_channel = 128
