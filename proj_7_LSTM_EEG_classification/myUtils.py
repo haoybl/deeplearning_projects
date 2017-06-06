@@ -1,18 +1,25 @@
+from __future__ import division
+
+import sys
+from collections import Counter
+from email.mime.text import MIMEText
+from smtplib import SMTP_SSL as SMTP
+
 import h5py
 import numpy as np
-from collections import Counter
+
 
 def prepare_train_valid_data():
     # Read train mat
-    with h5py.File('train_data_PSG.mat', 'r') as f:
-        train_data = f.get('train_data_collect/data')
+    with h5py.File('train_data_PSG_aug.mat', 'r') as f:
+        train_data = f.get('train_data_aug/data')
         train_data = np.array(train_data).transpose([2, 1, 0])
         # print("Type: " + str(type(data)))
         print(train_data.shape)
         # print(data[0, 0:40, 0])
         # print(data[0, 3800:, 0])
 
-        train_label = f.get('train_data_collect/label')
+        train_label = f.get('train_data_aug/label')
         train_label = np.array(train_label).transpose([1, 0])
         # print("Type: " + str(type(train_label)))
         print(train_label.shape)
@@ -57,7 +64,6 @@ def prepare_test_data():
     return test_data, test_label
 
 
-
 def next_batch(data, label, batch_size):
 
     num_sample = data.shape[0]
@@ -67,10 +73,37 @@ def next_batch(data, label, batch_size):
     return data[perm[:batch_size]], label[perm[:batch_size]]
 
 
-def label_counter(label):
+def label_counter(label, batch_size=128):
 
     # count number of different classes in one-hot encoded label
     decoded = np.argmax(label, axis=1)
-    counter = Counter(decoded).most_common()
+    counter = dict(Counter(decoded))
+    for i, j in counter.items():
+        counter[i] = j / batch_size
     print("Class Distribution: ")
     print(counter)
+
+
+def simple_msg_email(target="ytang014@e.ntu.edu.sg", subject="hello", body="Your Training has completed"):
+
+    email_host = 'smtp.gmail.com'
+    email_port = 465
+
+    email_username = 'ntutysendmail@gmail.com'
+    email_pass = '123456789Aa'
+
+    email_sender = 'ntutysendmail@gmail.com'
+
+    # Prepare actual message
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = email_sender
+    msg['To'] = target
+    try:
+        server = SMTP(email_host, email_port)
+        server.login(email_username, email_pass)
+        server.sendmail(email_sender, target, msg.as_string())
+        print("Successfully sent the mail")
+    except:
+        print("failed to send mail, Error: ")
+        print("Unexpected error:", sys.exc_info()[0])

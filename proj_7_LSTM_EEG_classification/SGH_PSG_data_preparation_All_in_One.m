@@ -11,6 +11,9 @@
 clear;
 clc;
 
+% Import utility functions from myUtils.m class
+import myUtils.*
+
 %% Define Environmental Variables & prepare file path
 no_edf = 20;
 no_train = 16;
@@ -103,7 +106,6 @@ for train_i = 1:no_train
         end
     end
     
-    
     % clear extra zeros epochs
     extra = size(train_data_collect.data, 1);
     if extra > epoch_iter
@@ -113,17 +115,21 @@ for train_i = 1:no_train
 end
 
 % Generate histogram of classes to check class imbalance
-class_counter(train_data_collect.label, 'Training Data Stage Distribution');
+class_counter_hist(train_data_collect.label, 'Training Data Stage Distribution Before Aug');
 
 % interchange dimension, from [epoch, channel, data] to [epoch_i, data, channel]
 % to be consistent in Python environment
 train_data_collect.data = permute(train_data_collect.data, [1, 3, 2]);
+save('train_data_PSG.mat', 'train_data_collect', '-v7.3');
 
+% Augment training data
+[train_data_aug.data, train_data_aug.label] = train_data_augmentation(train_data_collect.data, train_data_collect.label);
+class_counter_hist(train_data_aug.label, 'Training Data Stage Distribution After Aug');
+save('train_data_PSG_aug.mat', 'train_data_aug', '-v7.3');
+clear('train_data_aug', 'train_data_collect');
 clear('train_i', 'train_path', 'no_train', 'extra', 'i', 'label', 'hdr', ...
       'edf_path','epoch_i', 'labels', 'no_edf', 'no_epochs', 'p', ...
       'psg_raw', 'record', 'temp', 'epoch_iter');
-save('train_data_PSG.mat', 'train_data_collect', '-v7.3');
-clear('train_data_collect');
 
 %% Read test data
 % test data
@@ -178,7 +184,7 @@ for test_i = 1:no_test
 end
 
 % Generate histogram of classes to check class imbalance
-class_counter(test_data_collect.label, 'Testing Data Stage Distribution');
+class_counter_hist(test_data_collect.label, 'Testing Data Stage Distribution');
 
 % interchange dimension, from [epoch, channel, data] to [epoch_i, data, channel]
 % to be consistent in Python environment
@@ -244,7 +250,7 @@ for valid_i = 1:no_valid
 end
 
 % Generate histogram of classes to check class imbalance
-class_counter(valid_data_collect.label, 'Validation Data Stage Distribution');
+class_counter_hist(valid_data_collect.label, 'Validation Data Stage Distribution');
 
 % interchange dimension, from [epoch, channel, data] to [epoch_i, data, channel]
 % to be consistent in Python environment
